@@ -18,8 +18,8 @@ type Props = {
  */
 function Episode({ episode, characterInfo }: Props) {
   return (
-    <div className="card">
-      <div className="card--image">
+    <div className="episode">
+      <div className="episode--image">
         <ProgressiveImage
           height={150}
           width={150}
@@ -28,10 +28,8 @@ function Episode({ episode, characterInfo }: Props) {
         />
       </div>
       <div>
-        <Typography variant="h4">Episode Name: {episode.name}</Typography>
-        <Typography variant="body1">
-          Episode Air Date: {episode.air_date}
-        </Typography>
+        <Typography variant="h4">{episode.name}</Typography>
+        <Typography variant="body1">{episode.air_date}</Typography>
       </div>
       <div className="episode-characters">
         {episode.characters.map((character, index) => {

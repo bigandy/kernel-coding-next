@@ -1,3 +1,21 @@
+# Kernal Coding Challenge
+
+## Plan of Action
+
+1. Inspect the data from the API and figure out if need to do multiple requests or just one
+1. Get the data from the API and store in state
+1. Using data, produce a list of cards that contain each episode's information: image, title, air date, list of characters associated with that episode
+1. once the list has been done, need to add pagination to show 10 episodes per page
+1. add state for tracking of this pagination state
+1. make it look like the design/wireframe
+
+## Notes
+
+- looks like the API for /episodes returns a max of 23 episodes and that you cannot add pagination to the API request so I will go ahead and grab all of this data first.
+- each episode has an array of characters and each has a url for grabbing that character's data. So instead of doing many requests on a component level to find the character information I am going to first get the episodes data, then create an array of unique character urls and for each of these character urls fetch the data and store that at a page level.
+- using next to grab all the data first in async way and pass to the EpisodesList as props
+- use Material UI to provide some components e.g. Typography, Button, Avatar, Skeleton.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

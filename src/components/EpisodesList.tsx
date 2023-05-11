@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useMemo, Fragment } from "react";
-// import EmptyState from "./EmptyState";
 import Episode from "./Episode";
 import PaginationDots from "./PaginationDots";
 
-import "./App.scss";
 import { Button } from "@mui/material";
 
 export type CharacterSrc = Record<string, string>;
@@ -15,7 +13,7 @@ const ITEMS_PER_PAGE = 10;
 import { IEpisode } from "@/app/page";
 
 /**
- *
+ * A list of episodes with pagination.
  * @param data array of episodes of type IEpisode
  * @param characterInfo object of characters
  * @returns JSX.Element
@@ -43,9 +41,11 @@ function EpisodeList({
   // if we are the final page, then disable the next button
   const nextButtonDisabled =
     page * ITEMS_PER_PAGE + ITEMS_PER_PAGE > data.length;
+  const totalPages = Math.ceil(data?.length / ITEMS_PER_PAGE);
+
   return (
     <Fragment>
-      <div className="cards">
+      <div className="episodes">
         {episodes.length > 0 &&
           episodes.map((episode) => (
             <Episode
@@ -64,10 +64,7 @@ function EpisodeList({
         >
           Previous
         </Button>
-        <PaginationDots
-          page={page}
-          totalPages={Math.ceil(data?.length / ITEMS_PER_PAGE)}
-        />
+        <PaginationDots currentPage={page} totalPages={totalPages} />
         <Button
           variant="outlined"
           disabled={nextButtonDisabled}

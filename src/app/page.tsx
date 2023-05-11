@@ -1,4 +1,3 @@
-// import Image from "next/image";
 import styles from "./page.module.css";
 
 import EpisodesList from "@/components/EpisodesList";
@@ -41,26 +40,25 @@ async function getData() {
   const res = await fetch("https://finalspaceapi.com/api/v0/episode");
   const data = await res.json();
 
-  // grab all of the ids of the characters that are in any episode.
-
   const grabCharacterInfo = async (data: IEpisode[]) => {
     const characters = data.map(({ characters }) => characters);
     const uniqueCharacterUrls = [...new Set(characters.flat())];
 
-    const urls: Record<string, { url: string; name: string }> = {};
+    const info: Record<string, { url: string; name: string }> = {};
 
+    // fetch each character and add to info object.
     await Promise.all(
       uniqueCharacterUrls.map(async (url) => {
         return await fetch(url)
           .then((res) => res.json())
-          .then((d: ICharacter) => {
-            urls[url] = { url: d.img_url, name: d.name };
+          .then((character: ICharacter) => {
+            info[url] = { url: character.img_url, name: character.name };
             return;
           });
       })
     );
 
-    return urls;
+    return info;
   };
   const characterInfo = await grabCharacterInfo(data);
 

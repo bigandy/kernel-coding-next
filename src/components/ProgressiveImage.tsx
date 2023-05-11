@@ -9,10 +9,10 @@ type Props = {
 };
 
 /**
- * The visual representation of the character image for an episode.
+ * The visual representation of the character image for an episode. With added progressive loading.
  * @param characterSrc string the url of the image
  * @param size (optional) the width/height of the image as a square.
- * @returns
+ * @returns JSX.Element.
  */
 function ProgressiveImage({ src, width, height, alt }: Props) {
   const [imageSrc, setImgSrc] = useState("");

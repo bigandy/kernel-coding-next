@@ -16,6 +16,7 @@ type Props = {
 function EpisodeCharacterImage({ characterSrc, size = 50, alt }: Props) {
   const [imageSrc, setImgSrc] = useState("");
 
+  // For a better loading experience
   useEffect(() => {
     const img = new Image();
     img.src = characterSrc;
