@@ -13,7 +13,6 @@
   border-bottom: 1px solid;
   padding: 1rem;
   display: grid;
-  grid-template-columns: max-content auto 200px;
   gap: 1rem;
 }
 
@@ -28,10 +27,19 @@
 .episode-characters {
   display: flex;
   flex-wrap: wrap;
-  margin-left: auto;
   gap: 1rem;
   align-content: start;
-  justify-content: end;
+}
+
+@media (min-width: 600px) {
+  .episode {
+    grid-template-columns: max-content auto 200px;
+  }
+
+  .episode-characters {
+    margin-left: auto;
+    justify-content: end;
+  }
 }
 
 .pagination {
