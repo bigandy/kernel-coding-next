@@ -1,95 +1,68 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+// import Image from "next/image";
+import styles from "./page.module.css";
 
-export default function Home() {
+import EpisodesList from "@/components/EpisodesList";
+
+export interface IEpisode {
+  id: number;
+  name: string;
+  air_date: string;
+  director: string;
+  writer: string;
+  characters: string[];
+  img_url: string;
+}
+
+export interface ICharacter {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  gender: string;
+  hair: string;
+  alias: string[];
+  origin: string;
+  abilities: string[];
+  img_url: string;
+}
+
+export default async function Home() {
+  const { data, characterInfo } = await getData();
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <EpisodesList data={data} characterInfo={characterInfo} />
     </main>
-  )
+  );
+}
+
+export const revalidate = 3600; // revalidate every hour
+
+async function getData() {
+  const res = await fetch("https://finalspaceapi.com/api/v0/episode");
+  const data = await res.json();
+
+  // grab all of the ids of the characters that are in any episode.
+
+  const grabCharacterInfo = async (data: IEpisode[]) => {
+    const characters = data.map(({ characters }) => characters);
+    const uniqueCharacterUrls = [...new Set(characters.flat())];
+
+    const urls: Record<string, { url: string; name: string }> = {};
+
+    await Promise.all(
+      uniqueCharacterUrls.map(async (url) => {
+        return await fetch(url)
+          .then((res) => res.json())
+          .then((d: ICharacter) => {
+            urls[url] = { url: d.img_url, name: d.name };
+            return;
+          });
+      })
+    );
+
+    return urls;
+  };
+  const characterInfo = await grabCharacterInfo(data);
+
+  return { data, characterInfo };
 }

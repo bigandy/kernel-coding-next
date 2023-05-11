@@ -1,0 +1,77 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.cards {
+  border-radius: 5px;
+  border: 1px solid;
+}
+
+.card {
+  border-bottom: 1px solid;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: max-content auto 200px;
+  gap: 1rem;
+}
+
+.card--image img {
+  display: block;
+}
+
+.card:last-child {
+  border-bottom: 0;
+}
+
+.episode-characters {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: auto;
+  gap: 1rem;
+  align-content: start;
+  justify-content: end;
+}
+
+.pagination {
+  width: max-content;
+  margin-left: auto;
+  padding-top: 1rem;
+}
+
+button + button {
+  margin-left: 1rem;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.image--loading {
+  filter: blur(10px);
+  clip-path: inset(0);
+}
+.image--loaded {
+  filter: blur(0px);
+  transition: filter 0.5s linear;
+}
+
+.dot {
+  border-radius: 50%;
+  background: grey;
+  margin-right: 1rem;
+  display: inline-block;
+  aspect-ratio: 1;
+  padding-inline: 0.5rem;
+  color: white;
+  border: 5px solid transparent;
+  display: inline-grid;
+  place-content: center;
+}
+
+.dot--active {
+  border-color: orange;
+  background: white;
+  color: orange;
+}
