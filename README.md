@@ -1,4 +1,4 @@
-# Kernal Coding Challenge
+# Kernel Coding Challenge
 
 ## Plan of Action
 
